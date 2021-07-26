@@ -15,11 +15,17 @@ class Server {
 
 	private setMiddleware() {
 		//* Logging middleware
-		this.app.use((req, res, next: express.NextFunction) => {
-			console.log(req.rawHeaders[1]);
-			console.log(`Logging Middleware`);
-			next(); // 써줘야 다음 미들웨어/라우터 실행.
-		});
+		this.app.use(
+			(
+				req: express.Request,
+				res: express.Response,
+				next: express.NextFunction
+			) => {
+				console.log(req.rawHeaders[1]);
+				console.log(`Logging Middleware`);
+				next(); // 써줘야 다음 미들웨어/라우터 실행.
+			}
+		);
 
 		//* json middleware 익스프레스가 json 객체를 읽을 수 있도록 해줌
 		this.app.use(express.json());
@@ -27,10 +33,16 @@ class Server {
 		this.setRoute();
 
 		//* 404 middleware
-		this.app.use((req, res, next) => {
-			console.log(`error middleware`);
-			res.send({ error: '404 NOT FOUND' });
-		});
+		this.app.use(
+			(
+				req: express.Request,
+				res: express.Response,
+				next: express.NextFunction
+			) => {
+				console.log(`error middleware`);
+				res.send({ error: '404 NOT FOUND' });
+			}
+		);
 	}
 	public listen() {
 		this.setMiddleware();
